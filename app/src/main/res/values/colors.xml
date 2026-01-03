@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="accent">#FF5722</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="fab_background">#FFFFFF</color>
+    <color name="fab_icon">#333333</color>
+
+    <!-- Launcher icon background -->
+    <color name="ic_launcher_background">#1976D2</color>
+
+    <!-- Liquid Glass effect colors -->
+    <color name="glass_background">#B3FFFFFF</color>
+    <color name="glass_background_dark">#B31A1A1A</color>
+    <color name="glass_border">#40FFFFFF</color>
+    <color name="glass_shadow">#20000000</color>
+</resources>

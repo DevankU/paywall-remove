@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Hand base / palm -->
+    <path
+        android:fillColor="#FFCC80"
+        android:pathData="M38,85 L38,62 C38,60 40,58 42,58 L66,58 C68,58 70,60 70,62 L70,85 C70,87 68,89 66,89 L42,89 C40,89 38,87 38,85 Z"/>
+
+    <!-- Middle finger (extended up) -->
+    <path
+        android:fillColor="#FFCC80"
+        android:pathData="M49,58 L49,24 C49,21 51,19 54,19 C57,19 59,21 59,24 L59,58 Z"/>
+
+    <!-- Middle finger nail -->
+    <path
+        android:fillColor="#FFAB91"
+        android:pathData="M50,24 L50,28 C50,26 52,24 54,24 C56,24 58,26 58,28 L58,24 C58,22 56,20 54,20 C52,20 50,22 50,24 Z"/>
+
+    <!-- Folded fingers (left side) -->
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M38,70 L38,62 C38,60 40,58 42,58 L48,58 L48,70 C48,72 46,74 44,74 L42,74 C40,74 38,72 38,70 Z"/>
+
+    <!-- Folded fingers (right side) -->
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M60,58 L66,58 C68,58 70,60 70,62 L70,70 C70,72 68,74 66,74 L64,74 C62,74 60,72 60,70 Z"/>
+
+    <!-- Knuckle lines -->
+    <path
+        android:fillColor="#E0A060"
+        android:strokeWidth="0.5"
+        android:pathData="M42,65 L66,65"/>
+
+</vector>

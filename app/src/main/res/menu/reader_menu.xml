@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_dark_mode"
+        android:title="Dark Mode" />
+
+    <item
+        android:id="@+id/menu_reading_mode"
+        android:title="Reading Mode" />
+
+    <item
+        android:id="@+id/menu_screenshot"
+        android:title="Long Screenshot" />
+
+    <item
+        android:id="@+id/menu_export_pdf"
+        android:title="Export as PDF" />
+
+</menu>
