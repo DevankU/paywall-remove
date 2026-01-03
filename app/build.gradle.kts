@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -36,22 +37,29 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 }
 
 dependencies {
+    // Core
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
+
+    // Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // Liquid Glass - Kyant0 Backdrop
+    implementation("io.github.kyant0:backdrop:1.0.4")
+
+    // Capsule shapes (for rounded pill shapes)
+    implementation("io.github.nicholasrout:capsule:1.0.0")
+
+    // WebView
     implementation("androidx.webkit:webkit:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-
-    // Spring physics animations for Liquid Glass effect
-    implementation("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
-
-    // Emoji support for icon rendering
-    implementation("androidx.emoji2:emoji2:1.4.0")
-    implementation("androidx.emoji2:emoji2-bundled:1.4.0")
 }
