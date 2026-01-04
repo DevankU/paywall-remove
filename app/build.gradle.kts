@@ -1,17 +1,17 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.freedium.reader"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.freedium.reader"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -45,6 +45,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("com.google.android.material:material:1.12.0")
 
     // Compose BOM
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
@@ -58,7 +59,7 @@ dependencies {
     implementation("io.github.kyant0:backdrop:1.0.4")
 
     // Capsule shapes (for rounded pill shapes)
-    implementation("io.github.nicholasrout:capsule:1.0.0")
+    implementation("io.github.kyant0:capsule:2.1.1")
 
     // WebView
     implementation("androidx.webkit:webkit:1.9.0")

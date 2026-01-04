@@ -32,7 +32,7 @@ import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
-import com.kyant.capsule.ContinuousRoundedCornerShape
+import com.kyant.capsule.ContinuousRoundedRectangle
 
 sealed class AIAction(val label: String) {
     data object Explain : AIAction("Explain this")
@@ -80,7 +80,7 @@ fun LiquidAIPopup(
             modifier = Modifier
                 .drawBackdrop(
                     backdrop = backdrop,
-                    shape = { ContinuousRoundedCornerShape(16.dp) },
+                    shape = { ContinuousRoundedRectangle(16.dp) },
                     effects = {
                         with(density) {
                             blur(24f.dp.toPx())

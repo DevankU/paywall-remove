@@ -36,7 +36,7 @@ import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
-import com.kyant.capsule.ContinuousRoundedCornerShape
+import com.kyant.capsule.ContinuousRoundedRectangle
 
 data class MenuItem(
     val title: String,
@@ -75,7 +75,7 @@ fun LiquidDropdownMenu(
             modifier = Modifier
                 .drawBackdrop(
                     backdrop = backdrop,
-                    shape = { ContinuousRoundedCornerShape(16.dp) },
+                    shape = { ContinuousRoundedRectangle(16.dp) },
                     effects = {
                         with(density) {
                             blur(20f.dp.toPx())

@@ -1,5 +1,7 @@
 package com.freedium.reader.ui.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -66,7 +68,13 @@ fun LiquidToggle(
     val trackBackdrop = rememberLayerBackdrop()
 
     Box(
-        modifier,
+        modifier
+            .size(52.dp, 28.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = { onCheckedChange(!checked) }
+            ),
         contentAlignment = Alignment.CenterStart
     ) {
         // Track
@@ -79,12 +87,6 @@ fun LiquidToggle(
                 }
                 .size(52f.dp, 28f.dp)
                 .semantics { role = Role.Switch }
-                .graphicsLayer {
-                    // Clickable area
-                }
-                .then(
-                    Modifier.drawBehind { }
-                )
         )
 
         // Thumb
@@ -130,16 +132,6 @@ fun LiquidToggle(
                 )
                 .size(24f.dp)
         )
-    }
-
-    // Handle click on entire toggle
-    Box(
-        modifier = Modifier
-            .size(52.dp, 28.dp)
-            .graphicsLayer { alpha = 0f }
-            .semantics { role = Role.Switch }
-    ) {
-        // This is just for click handling
     }
 }
 

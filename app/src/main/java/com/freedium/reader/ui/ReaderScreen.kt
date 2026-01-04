@@ -36,10 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.freedium.reader.ui.components.AIAction
 import com.freedium.reader.ui.components.LiquidAIPopup
-import com.freedium.reader.ui.components.LiquidDropdownMenu
-import com.freedium.reader.ui.components.LiquidMenuButton
-import com.freedium.reader.ui.components.LiquidToggle
-import com.freedium.reader.ui.components.MenuItem
+import com.freedium.reader.ui.components.LiquidGlassBottomBar
 import com.freedium.reader.ui.components.WebViewContainer
 import com.freedium.reader.ui.components.exportAsPdf
 import com.freedium.reader.ui.components.injectDarkMode
@@ -47,6 +44,7 @@ import com.freedium.reader.ui.components.injectReadingMode
 import com.freedium.reader.ui.components.removeDarkMode
 import com.freedium.reader.ui.components.removeReadingMode
 import com.freedium.reader.ui.components.takeLongScreenshot
+import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 
 @Composable
@@ -107,7 +105,9 @@ fun ReaderScreen(
     ) {
         WebViewContainer(
             url = url,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .layerBackdrop(backdrop),
             onWebViewCreated = { wv ->
                 webView = wv
                 // Apply initial settings if needed
@@ -123,7 +123,7 @@ fun ReaderScreen(
             }
         )
 
-        // Menu Button
+        // Liquid Glass Bottom Bar
         AnimatedVisibility(
             visible = isMenuButtonVisible,
             enter = fadeIn() + slideInVertically { it },
@@ -132,108 +132,65 @@ fun ReaderScreen(
                 .align(Alignment.BottomEnd)
                 .padding(24.dp)
         ) {
-            LiquidMenuButton(
-                onClick = { isMenuVisible = !isMenuVisible },
-                backdrop = backdrop
-            )
-        }
-
-        // Dropdown Menu
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 80.dp, end = 24.dp)
-        ) {
-            LiquidDropdownMenu(
-                visible = isMenuVisible,
+            LiquidGlassBottomBar(
                 backdrop = backdrop,
-                onDismiss = { isMenuVisible = false },
-                darkModeToggle = {
-                    LiquidToggle(
-                        checked = isDarkMode,
-                        onCheckedChange = { checked ->
-                            isDarkMode = checked
-                            if (checked) {
-                                // Disable reading mode if active
-                                if (isReadingMode) {
-                                    isReadingMode = false
-                                    webView?.removeReadingMode()
-                                }
-                                webView?.injectDarkMode()
-                            } else {
-                                webView?.removeDarkMode()
-                            }
-                        },
-                        backdrop = backdrop
-                    )
+                isDarkMode = isDarkMode,
+                isReadingMode = isReadingMode,
+                isExpanded = isMenuVisible,
+                onToggleExpanded = { isMenuVisible = !isMenuVisible },
+                onDarkModeToggle = {
+                    isDarkMode = !isDarkMode
+                    if (isDarkMode) {
+                        // Disable reading mode if active
+                        if (isReadingMode) {
+                            isReadingMode = false
+                            webView?.removeReadingMode()
+                        }
+                        webView?.injectDarkMode()
+                    } else {
+                        webView?.removeDarkMode()
+                    }
                 },
-                items = listOf(
-                    MenuItem(
-                        title = if (isReadingMode) "Exit Reading Mode" else "Reading Mode",
-                        onClick = {
-                            isReadingMode = !isReadingMode
-                            if (isReadingMode) {
-                                // Disable dark mode if active
-                                if (isDarkMode) {
-                                    isDarkMode = false
-                                    webView?.removeDarkMode()
-                                }
-                                webView?.injectReadingMode()
-                            } else {
-                                webView?.removeReadingMode()
-                            }
+                onReadingModeToggle = {
+                    isReadingMode = !isReadingMode
+                    if (isReadingMode) {
+                        // Disable dark mode if active
+                        if (isDarkMode) {
+                            isDarkMode = false
+                            webView?.removeDarkMode()
                         }
-                    ),
-                    MenuItem(
-                        title = "Long Screenshot",
-                        onClick = {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                // Android 10+ uses MediaStore, no permission needed for downloads
+                        webView?.injectReadingMode()
+                    } else {
+                        webView?.removeReadingMode()
+                    }
+                },
+                onScreenshot = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        captureScreenshot()
+                    } else {
+                        when (PackageManager.PERMISSION_GRANTED) {
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) -> {
                                 captureScreenshot()
-                            } else {
-                                // Android 9 and below need permission
-                                when (PackageManager.PERMISSION_GRANTED) {
-                                    ContextCompat.checkSelfPermission(
-                                        context,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                    ) -> {
-                                        captureScreenshot()
-                                    }
-                                    else -> {
-                                        permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                    }
-                                }
+                            }
+                            else -> {
+                                permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             }
                         }
-                    ),
-                    MenuItem(
-                        title = "Export as PDF",
-                        onClick = {
-                            webView?.exportAsPdf(context)
-                        }
-                    ),
-                    MenuItem(
-                        title = "Open in Browser",
-                        onClick = {
-                            try {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                                context.startActivity(intent)
-                            } catch (e: Exception) {
-                                Toast.makeText(context, "Could not open browser", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    ),
-                    MenuItem(
-                        title = "Share Link",
-                        onClick = {
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "text/plain"
-                                putExtra(Intent.EXTRA_TEXT, url)
-                            }
-                            context.startActivity(Intent.createChooser(intent, "Share via"))
-                        }
-                    )
-                )
+                    }
+                },
+                onExportPdf = {
+                    webView?.exportAsPdf(context)
+                },
+                onShare = {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, url)
+                    }
+                    context.startActivity(Intent.createChooser(intent, "Share via"))
+                }
             )
         }
 
