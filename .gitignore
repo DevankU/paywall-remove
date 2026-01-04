@@ -10,3 +10,6 @@ captures/
 *.ap_
 *.aab
 .claude/
+t.txt
+Backdrop.pdf
+.kotlin/errors
